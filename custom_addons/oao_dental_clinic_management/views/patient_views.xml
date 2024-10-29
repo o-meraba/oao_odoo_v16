@@ -15,7 +15,7 @@
         </field>
     </record>
 
-    <record id="view_patient_search_view" model="ir.ui.view">
+    <record id="view_patient_search" model="ir.ui.view">
         <field name="name">patient.patient.search</field>
         <field name="model">patient.patient</field>
         <field name="arch" type="xml">
@@ -45,8 +45,8 @@
                             <field name="age" readonly="1"/>
                             <field name="gender"/>
                             <field name="blood_type"/>
-                            <field name="phone" placeholder="5555555555"/>
-                            <field name="email"/>
+                            <field name="phone" placeholder="5456214687"/>
+                            <field name="email" placeholder="example@example.com"/>
                             <field name="note"/>
                             <field name="active" invisible="1"/>
                         </group>

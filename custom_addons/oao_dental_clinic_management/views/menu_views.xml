@@ -4,13 +4,13 @@
           sequence="10"
           web_icon="oao_dental_clinic_management/static/description/icon.png"/>
 
-        <menuitem id="apt_reservations_sub_menu"
+        <menuitem id="menu_appointments_sub_menu"
                   name="Appointments Table"
                   parent="menu_custom_data_root"
                   action="action_patient_appointment_calendar"
                   sequence="10"/>
 
-        <menuitem id="menu_patient_data"
+        <menuitem id="menu_patient_sub_menu"
                   name="Patients"
                   parent="menu_custom_data_root"
                   action="action_patient"
