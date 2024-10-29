@@ -10,7 +10,8 @@ class Patient(models.Model):
     _description = "Patients"
     _order = 'name desc'
 
-    patient_serial = fields.Char(string="Patient Serial", required=True, copy=False, readonly=True, index=True, default=lambda self: _("New Patient"))
+    patient_serial = fields.Char(string="Patient Serial", required=True, copy=False, readonly=True, index=True,
+                                 default=lambda self: _("New Patient"))
     name = fields.Char(string="Patient Name", required=True)
     surname = fields.Char(string="Patient Surname", required=True)
     date_of_birth = fields.Date(string='Date Of Birth', default=date.today(), required=True)
@@ -87,3 +88,11 @@ class Patient(models.Model):
             if not re.match(r"^[1-9][0-9]{9}$", record.phone):
                 raise ValidationError(
                     _("Invalid phone number. Please enter a 10-digit phone number without spaces or special characters."))
+
+    @api.constrains("email")
+    def _check_email_constraints(self):
+        email_pattern = r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"
+        for record in self:
+            if not re.match(email_pattern, record.email):
+                raise ValidationError("Invalid email.")
+
