@@ -14,11 +14,12 @@
     'data': [
         'security/ir.model.access.csv',
         'data/employee.type.csv',
+        'data/data.xml',
         'views/patient_views.xml',
         'views/employee_type_views.xml',
         'views/patient_appointment_views.xml',
+        'views/dental_clinic_menus_views.xml',
         'views/scheduled_actions.xml',
-
     ],
     'sequence': '-1',
     'installable': True,

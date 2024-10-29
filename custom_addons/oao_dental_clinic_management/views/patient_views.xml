@@ -1,11 +1,10 @@
 <odoo>
-
     <record id="view_patient_tree" model="ir.ui.view">
         <field name="name">patient.tree</field>
         <field name="model">patient.patient</field>
         <field name="arch" type="xml">
             <tree string="Patient" delete="false">
-                <field name="patient_id"/>
+                <field name="patient_serial"/>
                 <field name="name"/>
                 <field name="surname"/>
                 <field name="date_of_birth"/>
@@ -26,7 +25,6 @@
         </field>
     </record>
 
-
     <record id="view_patient_form" model="ir.ui.view">
         <field name="name">patient.form</field>
         <field name="model">patient.patient</field>
@@ -41,7 +39,6 @@
                     </div>
                     <group>
                         <group>
-
                             <field name="name"/>
                             <field name="surname"/>
                             <field name="date_of_birth"/>
@@ -101,16 +98,4 @@
             </p>
         </field>
     </record>
-
-     <menuitem id="menu_custom_data_root"
-          name="Dental Clinic"
-          sequence="10"
-          web_icon="oao_dental_clinic_management/static/description/icon.png"/>
-
-
-    <menuitem id="menu_patient_data"
-              name="Patients"
-              parent="menu_custom_data_root"
-              action="action_patient"
-              sequence="20"/>
 </odoo>

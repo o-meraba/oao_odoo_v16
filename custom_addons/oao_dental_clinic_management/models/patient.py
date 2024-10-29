@@ -10,7 +10,7 @@ class Patient(models.Model):
     _description = "Patients"
     _order = 'name desc'
 
-    patient_id = fields.Char(string="Patient ID", readonly=True, copy=False, default="New Patient")
+    patient_serial = fields.Char(string="Patient Serial", required=True, copy=False, readonly=True, index=True, default=lambda self: _("New Patient"))
     name = fields.Char(string="Patient Name", required=True)
     surname = fields.Char(string="Patient Surname", required=True)
     date_of_birth = fields.Date(string='Date Of Birth', default=date.today(), required=True)
@@ -56,24 +56,20 @@ class Patient(models.Model):
 
     @api.model
     def create(self, vals):
-        existing_patient = self.search([
-            ('name', '=', vals.get('name')),
-            ('surname', '=', vals.get('surname')),
-            ('date_of_birth', '=', vals.get('date_of_birth'))
-        ], limit=1)
+        name = vals.get('name')
+        surname = vals.get('surname')
+        date_of_birth = vals.get('date_of_birth')
+        if name and surname and date_of_birth:
+            existing_patient = self.search([
+                ('name', '=', name),
+                ('surname', '=', surname),
+                ('date_of_birth', '=', date_of_birth)
+            ], limit=1)
+            if existing_patient:
+                raise ValidationError(_("A patient with the same name,surname, date of birth already exists."))
 
-        if existing_patient:
-            raise ValidationError(_("A patient with the same name, surname and date of birth already exists."))
-
-        if not vals.get('patient_id'):
-            # SQL ile mevcut en yüksek patient_id'yi alıyoruz
-            self._cr.execute(
-                "SELECT COALESCE(MAX(CAST(SUBSTRING(patient_id, 4, LENGTH(patient_id)) AS INTEGER)), 0) FROM patient_patient")
-            max_id = self._cr.fetchone()[0]
-
-            # Yeni patient_id'yi oluşturuyoruz
-            new_id = max_id + 1
-            vals['patient_id'] = f'PAT{str(new_id).zfill(5)}'  # PAT00001 gibi
+        if vals.get('patient_serial', _('New Patient')) == _('New Patient'):
+            vals['patient_serial'] = self.env['ir.sequence'].next_by_code('patient.sequence') or _('New Patient')
 
         return super(Patient, self).create(vals)
 
@@ -87,7 +83,6 @@ class Patient(models.Model):
 
     @api.constrains('phone')
     def _validation_phone(self):
-        # 10 haneli telefon numarası doğrulama kodu
         for record in self:
             if not re.match(r"^[1-9][0-9]{9}$", record.phone):
                 raise ValidationError(
