@@ -25,5 +25,5 @@
                       name="Employee Types"
                       action="action_employee_type"
                       sequence="10"
-                      parent="menu_configuration_sub_menu"/>
+                      parent="menu_configuration_submenu"/>
 </odoo>

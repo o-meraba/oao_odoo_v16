@@ -21,6 +21,11 @@
         <field name="arch" type="xml">
             <search>
                 <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
+                <field name="patient_serial" string="Patient Serial"/>
+                <field name="name" string="Patient Name"/>
+                <field name="surname" string="Patient Surname"/>
+                <field name="phone" string="Patient Phone Number"/>
+                <field name="email" string="Patient Email"/>
             </search>
         </field>
     </record>
