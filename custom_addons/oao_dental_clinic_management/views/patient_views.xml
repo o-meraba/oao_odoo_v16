@@ -1,11 +1,10 @@
 <odoo>
-
     <record id="view_patient_tree" model="ir.ui.view">
         <field name="name">patient.tree</field>
         <field name="model">patient.patient</field>
         <field name="arch" type="xml">
             <tree string="Patient" delete="false">
-                <field name="patient_id"/>
+                <field name="patient_serial"/>
                 <field name="name"/>
                 <field name="surname"/>
                 <field name="date_of_birth"/>
@@ -16,16 +15,20 @@
         </field>
     </record>
 
-    <record id="view_patient_search_view" model="ir.ui.view">
+    <record id="view_patient_search" model="ir.ui.view">
         <field name="name">patient.patient.search</field>
         <field name="model">patient.patient</field>
         <field name="arch" type="xml">
             <search>
                 <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
+                <field name="patient_serial" string="Patient Serial"/>
+                <field name="name" string="Patient Name"/>
+                <field name="surname" string="Patient Surname"/>
+                <field name="phone" string="Patient Phone Number"/>
+                <field name="email" string="Patient Email"/>
             </search>
         </field>
     </record>
-
 
     <record id="view_patient_form" model="ir.ui.view">
         <field name="name">patient.form</field>
@@ -41,20 +44,18 @@
                     </div>
                     <group>
                         <group>
-
                             <field name="name"/>
                             <field name="surname"/>
                             <field name="date_of_birth"/>
                             <field name="age" readonly="1"/>
                             <field name="gender"/>
                             <field name="blood_type"/>
-                            <field name="phone" placeholder="5555555555"/>
-                            <field name="email"/>
+                            <field name="phone" placeholder="5456214687"/>
+                            <field name="email" placeholder="example@example.com"/>
                             <field name="note"/>
                             <field name="active" invisible="1"/>
                         </group>
                     </group>
-
                     <notebook>
                         <page string="Patient Critical Information">
                             <!-- Buraya hasta kritik bilgileri için alanlar eklenebilir -->
@@ -101,16 +102,4 @@
             </p>
         </field>
     </record>
-
-     <menuitem id="menu_custom_data_root"
-          name="Dental Clinic"
-          sequence="10"
-          web_icon="oao_dental_clinic_management/static/description/icon.png"/>
-
-
-    <menuitem id="menu_patient_data"
-              name="Patients"
-              parent="menu_custom_data_root"
-              action="action_patient"
-              sequence="20"/>
 </odoo>

@@ -18,6 +18,7 @@
             </tree>
         </field>
     </record>
+
     <record id="view_patient_appointment_form" model="ir.ui.view">
         <field name="name">patient.appointment.form</field>
         <field name="model">patient.appointment</field>
@@ -46,13 +47,6 @@
         <field name="name">Appointments</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">patient.appointment</field>
-<!--        <field name="view_id" ref="view_combined_menu_item_tree"/>-->
         <field name="view_mode">calendar,tree,form</field>
     </record>
-
-    <menuitem id="apt_reservations_sub_menu"
-              name="Appointments Table"
-              parent="menu_custom_data_root"
-              action="action_patient_appointment_calendar"
-              sequence="30"/>
 </odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="seq_patient" model="ir.sequence">
+            <field name="name">Patient Serial</field>
+            <field name="code">patient.sequence</field> <!-- unique -->
+            <field name="prefix">PAT</field>
+            <field name="padding">6</field>
+            <field name="implementation">no_gap</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

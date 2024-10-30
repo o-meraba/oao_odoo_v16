@@ -1,0 +1,73 @@
+<odoo>
+    <record id="view_employee_tree" model="ir.ui.view">
+        <field name="name">employee.tree</field>
+        <field name="model">clinic.employee</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="surname"/>
+                <field name="employee_type"/>
+                <field name="phone"/>
+                <field name="email"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_employee_form" model="ir.ui.view">
+        <field name="name">employee.form</field>
+        <field name="model">clinic.employee</field>
+        <field name="arch" type="xml">
+            <form string="Employee" duplicate="false">
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar" />
+                    <div class="oe_title">
+                        <h1>
+                            About Employee
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_type"/>
+                            <field name="name"/>
+                            <field name="surname"/>
+                            <field name="date_of_birth"/>
+                             <field name="age" readonly="1"/>
+                            <field name="gender"/>
+                            <field name="phone"/>
+                            <field name="second_phone"/>
+                            <field name="email"/>
+                            <field name="tc_number"/>
+                            <field name="home_address"/>
+                            <field name="bank_account_number"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Employee Extra Information">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+                <div class="ribbon ribbon-top-right" attrs="{'invisible': [('active', '=', True)]}">
+                    <span class="bg-danger">Archived</span>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_employee" model="ir.actions.act_window">
+        <field name="name">Employee</field>
+        <field name="res_model">clinic.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+               Create new employee
+            </p>
+        </field>
+    </record>
+</odoo>
