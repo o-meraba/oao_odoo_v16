@@ -56,7 +56,6 @@
                             <field name="active" invisible="1"/>
                         </group>
                     </group>
-
                     <notebook>
                         <page string="Patient Critical Information">
                             <!-- Buraya hasta kritik bilgileri için alanlar eklenebilir -->

@@ -95,4 +95,3 @@ class Patient(models.Model):
         for record in self:
             if not re.match(email_pattern, record.email):
                 raise ValidationError("Invalid email.")
-

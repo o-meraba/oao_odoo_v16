@@ -26,4 +26,10 @@
                       action="action_employee_type"
                       sequence="10"
                       parent="menu_configuration_submenu"/>
+
+            <menuitem id="menu_employee"
+                      name="Employees"
+                      action="action_employee"
+                      sequence="20"
+                      parent="menu_configuration_submenu"/>
 </odoo>
