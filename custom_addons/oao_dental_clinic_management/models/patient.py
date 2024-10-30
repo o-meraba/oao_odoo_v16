@@ -20,7 +20,7 @@ class Patient(models.Model):
     gender = fields.Selection([
         ('male', "Male"),
         ('female', 'Female')
-    ], string='Gender', default='male')
+    ], string='Gender', default='male', required=True)
     note = fields.Text(string="Description")
     phone = fields.Char(string="Phone", required=True)
     email = fields.Char(string="Email")
@@ -29,7 +29,7 @@ class Patient(models.Model):
         ('a+', 'A with Rh-factor'),
         ('b-', 'B without Rh-factor'),
         ('b+', 'B with Rh-factor'),
-    ], string="Blood Typing", required=True)
+    ], string="Blood Types", required=True)
     active = fields.Boolean(string="Active", default=True)
 
     def name_get(self):
