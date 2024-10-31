@@ -20,6 +20,7 @@ class Employee(models.Model):
     image = fields.Image(string="Image")
     email = fields.Char(string='Email Address')
     tc_number = fields.Char(string='TC No', required=True)
+    city = fields.Many2one('res.country.state', string="City", domain="[('country_id', '=', 224)]")
     home_address = fields.Text(string='Home Address', required=True)
     bank_account_number = fields.Char(string='Bank Account Number', required=True)
     active = fields.Boolean(string="Active", default=True)
@@ -71,3 +72,24 @@ class Employee(models.Model):
         for record in self:
             if not re.match(email_pattern, record.email):
                 raise ValidationError("Invalid email.")
+
+    @api.constrains('tc_number')
+    def _check_tc_number(self):
+        for record in self:
+            tc_no = record.tc_number
+
+            # TC numarası 11 haneli olmalı ve rakamlardan oluşmalı
+            if not tc_no.isdigit() or len(tc_no) != 11:
+                raise ValidationError("TC Kimlik Numarası 11 haneli bir sayı olmalıdır.")
+
+            # İlk hane 0 olmamalı
+            if tc_no[0] == '0':
+                raise ValidationError("TC Kimlik Numarası 0 ile başlayamaz.")
+
+            # Algoritmaya göre doğrulama
+            digits = list(map(int, tc_no))
+            if not (
+                    sum(digits[:10]) % 10 == digits[10] and
+                    (sum(digits[0:9:2]) * 7 - sum(digits[1:8:2])) % 10 == digits[9]
+            ):
+                raise ValidationError("Geçerli bir TC Kimlik Numarası giriniz.")
