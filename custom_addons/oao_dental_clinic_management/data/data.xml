@@ -9,5 +9,14 @@
             <field name="implementation">no_gap</field>
             <field name="company_id" eval="False"/>
         </record>
+
+        <record id="seq_patient" model="ir.sequence">
+            <field name="name">Appointment Serial</field>
+            <field name="code">patient.appointment.sequence</field> <!-- unique -->
+            <field name="prefix">APT</field>
+            <field name="padding">6</field>
+            <field name="implementation">no_gap</field>
+            <field name="company_id" eval="False"/>
+        </record>
     </data>
 </odoo>

@@ -67,7 +67,7 @@ class Patient(models.Model):
                 ('date_of_birth', '=', date_of_birth)
             ], limit=1)
             if existing_patient:
-                raise ValidationError(_("A patient with the same name,surname, date of birth already exists."))
+                raise ValidationError(_("A patient with the same name, surname and date of birth already exists."))
 
         if vals.get('patient_serial', _('New Patient')) == _('New Patient'):
             vals['patient_serial'] = self.env['ir.sequence'].next_by_code('patient.sequence') or _('New Patient')

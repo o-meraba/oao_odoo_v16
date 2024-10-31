@@ -9,6 +9,7 @@
                 <field name="employee_type"/>
                 <field name="phone"/>
                 <field name="email"/>
+                <field name="city"/>
             </tree>
         </field>
     </record>
@@ -37,6 +38,7 @@
                             <field name="second_phone"/>
                             <field name="email"/>
                             <field name="tc_number"/>
+                            <field name="city"/>
                             <field name="home_address"/>
                             <field name="bank_account_number"/>
                             <field name="active" invisible="1"/>
