@@ -14,7 +14,7 @@ class PatientAppointment(models.Model):
                                      index=True, default=lambda self: _("New Appointment"))
     patient_id = fields.Many2one('patient.patient', string="Patient Name", tracking=True)
     name = fields.Char('Meeting Subject', required=False)
-    dentist_id = fields.Many2one('clinic.employee', string="Dentist", domain=[('employee_type.name', '=', 'Doctor')])
+    dentist_id = fields.Many2one('clinic.employee', string="Dentist", domain=[('employee_type.name', '=', 'Dentist')])
     pricelist_id = fields.Many2one('product.pricelist', string="Pricelist")
     product_id = fields.Many2one('product.product', string="Product")
     allday = fields.Boolean('All Day', default=False)
