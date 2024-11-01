@@ -66,6 +66,8 @@ class Employee(models.Model):
                 raise ValidationError(
                     _("Invalid phone number. Please enter a 10-digit phone number without spaces or special "
                       "characters for the secondary phone."))
+            if record.phone == record.second_phone:
+                raise ValidationError(_("Phone and Second Phone can not be same."))
     @api.constrains("email")
     def _check_email_constraints(self):
         email_pattern = r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"
