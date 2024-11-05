@@ -20,6 +20,8 @@
         'views/employee_type_views.xml',
         'views/employee_views.xml',
         'views/patient_appointment_views.xml',
+        'views/appointment_template_views.xml',
+        'views/appointment_requests_views.xml',
         'views/menu_views.xml',
     ],
     'sequence': '-1',

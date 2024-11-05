@@ -32,4 +32,10 @@
                       action="action_employee"
                       sequence="20"
                       parent="menu_configuration_submenu"/>
+
+            <menuitem id="menu_appointment_requests"
+                      name="Appointment Requests"
+                      action="action_appointment_requests"
+                      sequence="30"
+                      parent="menu_configuration_submenu"/>
 </odoo>

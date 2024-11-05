@@ -72,8 +72,9 @@ class Employee(models.Model):
     def _check_email_constraints(self):
         email_pattern = r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"
         for record in self:
-            if not re.match(email_pattern, record.email):
-                raise ValidationError("Invalid email.")
+            if record.email:
+                if not re.match(email_pattern, record.email):
+                    raise ValidationError("Invalid email.")
 
     @api.constrains('tc_number')
     def _check_tc_number(self):
