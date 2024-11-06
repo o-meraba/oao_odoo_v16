@@ -14,6 +14,6 @@ class AppointmentRequests(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['appointment_day']: date.today()
+        vals['appointment_day'] = date.today()
 
         return super(AppointmentRequests, self).create(vals)

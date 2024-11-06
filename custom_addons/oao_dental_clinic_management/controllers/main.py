@@ -18,24 +18,22 @@ class PatientAppointmentController(http.Controller):
         phone = post.get('phone')
         dentist_id = post.get('dentist_id')
 
-        existing_patient = request.env['patient.patient'].sudo().search([
+        obj_patient = request.env['patient.patient'].sudo().search([
                 ('name', '=', name),
                 ('surname', '=', surname),
                 ('date_of_birth', '=', birthdate),
             ], limit=1)
 
-        if not existing_patient:
-            patient = request.env['patient.patient'].sudo().create({
+        if not obj_patient:
+            obj_patient = request.env['patient.patient'].sudo().create({
                 'name': name,
                 'surname': surname,
                 'date_of_birth': birthdate,
                 'phone': phone,
             })
-        else:
-            patient = existing_patient
 
         request.env['appointment.requests'].sudo().create({
-            'patient_id': patient.id,
+            'patient_id': obj_patient.id,
             'dentist_id': dentist_id,
         })
 
