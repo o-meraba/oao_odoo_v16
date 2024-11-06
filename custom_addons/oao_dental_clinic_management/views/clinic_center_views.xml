@@ -1,0 +1,37 @@
+<odoo>
+    <record id="view_clinic_center_form" model="ir.ui.view">
+        <field name="name">clinic.center.form</field>
+        <field name="model">clinic.center</field>
+        <field name="arch" type="xml">
+            <form string="Clinic Center">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="administrator_id"/>
+                        <field name="address"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_clinic_center_tree" model="ir.ui.view">
+        <field name="name">clinic.center.tree</field>
+        <field name="model">clinic.center</field>
+        <field name="arch" type="xml">
+            <tree string="Clinic Centers">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="administrator_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_clinic_center" model="ir.actions.act_window">
+        <field name="name">Clinic Centers</field>
+        <field name="res_model">clinic.center</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_clinic_center_tree"/>
+    </record>
+</odoo>
