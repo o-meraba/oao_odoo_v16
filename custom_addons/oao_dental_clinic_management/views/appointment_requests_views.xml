@@ -1,0 +1,39 @@
+<odoo>
+     <record id="view_appointment_requests_tree" model="ir.ui.view">
+        <field name="name">appointment.requests.tree</field>
+        <field name="model">appointment.requests</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" readonly="1"/>
+                <field name="patient_id"/>
+                <field name="dentist_id"/>
+                <field name="appointment_day"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="view_appointment_requests_form" model="ir.ui.view">
+        <field name="name">appointment.requests.form</field>
+        <field name="model">appointment.requests</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="patient_id"/>
+                        <field name="dentist_id"/>
+                        <field name="appointment_day"/>
+                        <field name="is_contacted"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_appointment_requests" model="ir.actions.act_window">
+        <field name="name">Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">appointment.requests</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
