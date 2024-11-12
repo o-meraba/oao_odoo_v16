@@ -1,7 +1,5 @@
 from datetime import timedelta
-
 from odoo import fields, models, api, _
-from odoo.cli.scaffold import template
 from odoo.exceptions import ValidationError
 
 
