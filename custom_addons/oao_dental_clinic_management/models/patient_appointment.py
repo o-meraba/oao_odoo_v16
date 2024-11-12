@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from odoo import fields, models, api, _
+from odoo.cli.scaffold import template
 from odoo.exceptions import ValidationError
 
 
@@ -13,7 +14,7 @@ class PatientAppointment(models.Model):
     appointment_serial = fields.Char(string="Appointment Serial", required=True, duplicate=False, readonly=True,
                                      index=True, default=lambda self: _("New Appointment"))
     patient_id = fields.Many2one('patient.patient', string="Patient Name", tracking=True)
-    name = fields.Char('Meeting Subject', required=False)
+    name = fields.Char('Appointment Subject', required=False)
     dentist_id = fields.Many2one('clinic.employee', string="Dentist", domain=[('employee_type.name', '=', 'Dentist')])
     pricelist_id = fields.Many2one('product.pricelist', string="Pricelist")
     product_id = fields.Many2one('product.product', string="Product")
@@ -21,6 +22,7 @@ class PatientAppointment(models.Model):
     duration = fields.Float('Duration', compute='_compute_duration', store=True, readonly=False)
     appointment_status = fields.Selection([
         ('draft', 'Draft'),
+        ('sent_email', 'Email Sent'),
         ('confirm', 'Appointment Confirmed'),
         ('completed_appointment', 'Appointment Completed'),
         ('cancelled', 'Appointment Cancelled'),
@@ -59,6 +61,24 @@ class PatientAppointment(models.Model):
         for event in self.with_context(dont_notify=True):
             event.duration = self._get_duration(event.start, event.stop)
 
+    def action_send_email_appointment_details(self):
+        print("sending email")
+        template_id = self.env.ref('oao_dental_clinic_management.email_template_appointment_details').id
+        template = self.env['mail.template'].browse(template_id)
+        if not template:
+            raise ValidationError(_("Email template not found!"))
+
+        result = template.send_mail(self.id, force_send=True)
+        mail = self.env['mail.mail'].search([('id', '=', result)], limit=1)
+        if mail and mail.state == 'exception':
+            raise ValidationError(_("Email sending failed!"))
+        else:
+            self.appointment_status = 'sent_email'
+
+
+    def status_cancelled_appointment(self):
+        self.appointment_status = 'cancelled'
+
     @api.model
     def create(self, vals):  # save button in the form view
         if vals.get('dentist_id') and vals.get('start'):
@@ -87,6 +107,7 @@ class PatientAppointment(models.Model):
             vals['appointment_serial'] = self.env['ir.sequence'].next_by_code('patient.appointment.sequence') or _(
                 'New Appointment')
         return super(PatientAppointment, self).create(vals)
+
 
     def write(self, vals):
         # Check for overlapping appointments with the same dentist on update

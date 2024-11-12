@@ -25,17 +25,20 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="appointment_status" widget="statusbar" statusbar_visible="draft,confirm,in_exam,completed_exam,completed_appointment,cancelled" options="{'clickable': '1'}"/>
+                    <field name="appointment_status" widget="statusbar" statusbar_visible="draft,sent_email,confirm,completed_appointment,cancelled"/>
+                    <button name="action_send_email_appointment_details" type="object" string="Send Email" class="oe_highlight"/>
+                    <button name="status_cancelled_appointment" type="object" string="Cancel Appointment" class="oe_highlight"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>
                             <field name="appointment_serial" readonly="1"/>
+
                         </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="appointment_serial" readonly="1"/>
+                            <field name="name"/>
                             <field name="patient_id"/>
                             <field name="start"/>
                             <field name="dentist_id"/>
