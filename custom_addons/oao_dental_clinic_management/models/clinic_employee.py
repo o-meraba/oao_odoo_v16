@@ -11,6 +11,7 @@ class Employee(models.Model):
     _description = 'Employee'
 
     employee_type = fields.Many2one('employee.type', string='Employee Type', required=True)
+    related_user = fields.Many2one('res.users', string='Related User', help="User associated with this employee")
     name = fields.Char(string='Employee Name', required=True)
     surname = fields.Char(string='Employee Surname', required=True)
     date_of_birth = fields.Date(string='Date of Birth', required=True)
@@ -66,7 +67,7 @@ class Employee(models.Model):
                 raise ValidationError(
                     _("Invalid phone number. Please enter a 10-digit phone number without spaces or special "
                       "characters for the secondary phone."))
-            if record.phone == record.second_phone:
+            if record.phone and record.second_phone and record.phone == record.second_phone:
                 raise ValidationError(_("Phone and Second Phone can not be same."))
     @api.constrains("email")
     def _check_email_constraints(self):
@@ -81,18 +82,81 @@ class Employee(models.Model):
         for record in self:
             tc_no = record.tc_number
 
-            # TC numarası 11 haneli olmalı ve rakamlardan oluşmalı
-            if not tc_no.isdigit() or len(tc_no) != 11:
-                raise ValidationError("TC Kimlik Numarası 11 haneli bir sayı olmalıdır.")
+            if tc_no:
+                if not tc_no.isdigit() or len(tc_no) != 11:
+                    raise ValidationError("TC Kimlik Numarası 11 haneli bir sayı olmalıdır.")
 
-            # İlk hane 0 olmamalı
-            if tc_no[0] == '0':
-                raise ValidationError("TC Kimlik Numarası 0 ile başlayamaz.")
+                # İlk hane 0 olmamalı
+                if tc_no[0] == '0':
+                    raise ValidationError("TC Kimlik Numarası 0 ile başlayamaz.")
 
-            # Algoritmaya göre doğrulama
-            digits = list(map(int, tc_no))
-            if not (
-                    sum(digits[:10]) % 10 == digits[10] and
-                    (sum(digits[0:9:2]) * 7 - sum(digits[1:8:2])) % 10 == digits[9]
-            ):
-                raise ValidationError("Geçerli bir TC Kimlik Numarası giriniz.")
+                # Algoritmaya göre doğrulama
+                digits = list(map(int, tc_no))
+                if not (
+                        sum(digits[:10]) % 10 == digits[10] and
+                        (sum(digits[0:9:2]) * 7 - sum(digits[1:8:2])) % 10 == digits[9]
+                ):
+                    raise ValidationError("Geçerli bir TC Kimlik Numarası giriniz.")
+
+
+    # @api.model
+    # def create(self, vals):
+    #     employee = super(Employee, self).create(vals)
+    #     employee_type = vals.get('employee_type')
+    #     if employee_type:
+    #         employee_type_name = self.env['employee.type'].browse(employee_type).name
+    #
+    #         if employee_type_name == 'Dentist':
+    #             default_password = "clinic123"
+    #             if not employee.related_user:
+    #                 user_vals = {
+    #                     'name': employee.name,
+    #                     'login': f"{employee.name.lower().replace(' ', '_')}.{employee.surname.lower().replace(' ', '_')}@clinic.com",
+    #                     'password': default_password,
+    #                     'groups_id': [
+    #                         (4, self.env.ref('oao_dental_clinic_management.group_dental_clinic_dentists').id),
+    #                         (4, self.env.ref('base.group_user').id)
+    #                     ]
+    #                 }
+    #                 user = self.env['res.users'].create(user_vals)
+    #                 employee.related_user = user.id
+    #     return employee
+    @api.model
+    def create(self, vals):
+        # Yeni bir employee kaydı oluştur
+        employee = super(Employee, self).create(vals)
+        employee_type = vals.get('employee_type')
+
+        if employee_type:
+            # Employee type bilgisi üzerinden isim al
+            employee_type_rec = self.env['employee.type'].browse(employee_type)
+            employee_type_name = employee_type_rec.name if employee_type_rec else False
+
+            if employee_type_name == 'Dentist':
+                default_password = "clinic123"
+
+                # Benzersiz bir login oluştur
+                base_login = f"{employee.name.lower().replace(' ', '_')}.{employee.surname.lower().replace(' ', '_')}"
+                login = base_login
+                counter = 1
+                while self.env['res.users'].search([('login', '=', f"{login}@clinic.com")]):
+                    login = f"{base_login}{counter}"
+                    counter += 1
+                login = f"{login}@clinic.com"
+
+                # Kullanıcı yoksa yeni bir kullanıcı oluştur
+                if not employee.related_user:
+                    user_vals = {
+                        'name': employee.name,
+                        'login': login,
+                        'password': default_password,
+                        'groups_id': [
+                            (4, self.env.ref('oao_dental_clinic_management.group_dental_clinic_dentists').id),
+                            (4, self.env.ref('base.group_user').id)
+                        ]
+                    }
+                    # Kullanıcı oluştur ve employee ile ilişkilendir
+                    user = self.env['res.users'].create(user_vals)
+                    employee.related_user = user.id
+
+        return employee
