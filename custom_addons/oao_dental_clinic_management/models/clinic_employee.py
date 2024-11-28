@@ -98,29 +98,6 @@ class Employee(models.Model):
                 ):
                     raise ValidationError("Geçerli bir TC Kimlik Numarası giriniz.")
 
-
-    # @api.model
-    # def create(self, vals):
-    #     employee = super(Employee, self).create(vals)
-    #     employee_type = vals.get('employee_type')
-    #     if employee_type:
-    #         employee_type_name = self.env['employee.type'].browse(employee_type).name
-    #
-    #         if employee_type_name == 'Dentist':
-    #             default_password = "clinic123"
-    #             if not employee.related_user:
-    #                 user_vals = {
-    #                     'name': employee.name,
-    #                     'login': f"{employee.name.lower().replace(' ', '_')}.{employee.surname.lower().replace(' ', '_')}@clinic.com",
-    #                     'password': default_password,
-    #                     'groups_id': [
-    #                         (4, self.env.ref('oao_dental_clinic_management.group_dental_clinic_dentists').id),
-    #                         (4, self.env.ref('base.group_user').id)
-    #                     ]
-    #                 }
-    #                 user = self.env['res.users'].create(user_vals)
-    #                 employee.related_user = user.id
-    #     return employee
     @api.model
     def create(self, vals):
         # Yeni bir employee kaydı oluştur
