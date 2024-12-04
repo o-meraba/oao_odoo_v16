@@ -1,6 +1,11 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+
+from dateutil.utils import today
+
 from odoo import fields, models, api, _
+from odoo.addons.test_convert.tests.test_env import record
 from odoo.exceptions import ValidationError
+from odoo.service.server import start
 
 
 class PatientAppointment(models.Model):
@@ -60,7 +65,6 @@ class PatientAppointment(models.Model):
             event.duration = self._get_duration(event.start, event.stop)
 
     def action_send_email_appointment_details(self):
-        print("sending email")
         template_id = self.env.ref('oao_dental_clinic_management.email_template_appointment_details').id
         template = self.env['mail.template'].browse(template_id)
         if not template:
@@ -76,6 +80,19 @@ class PatientAppointment(models.Model):
 
     def status_cancelled_appointment(self):
         self.appointment_status = 'cancelled'
+
+    @api.constrains('start')
+    def _check_start_time(self):
+        if self.start:
+            now = datetime.now()
+            if self.start < now:
+                raise ValidationError(_("The start time cannot be in the past. "))
+
+    @api.constrains('stop')
+    def _check_stop_time(self):
+        if self.start and self.stop:
+            if self.stop < self.start:
+                raise ValidationError(_('The stop time cannot be earlier than start time '))
 
     @api.model
     def create(self, vals):  # save button in the form view
@@ -106,7 +123,6 @@ class PatientAppointment(models.Model):
                 'New Appointment')
         return super(PatientAppointment, self).create(vals)
 
-
     def write(self, vals):
         # Check for overlapping appointments with the same dentist on update
         for record in self:
@@ -133,5 +149,4 @@ class PatientAppointment(models.Model):
                 ])
                 if existing_appointments_patient:
                     raise ValidationError(_("The patient already has an appointment scheduled during this time."))
-
         return super(PatientAppointment, self).write(vals)

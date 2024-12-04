@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-06 12:12+0000\n"
-"PO-Revision-Date: 2024-11-06 12:12+0000\n"
+"POT-Creation-Date: 2024-12-04 10:57+0000\n"
+"PO-Revision-Date: 2024-12-04 10:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,53 @@ msgid "5456929948"
 msgstr ""
 
 #. module: oao_dental_clinic_management
+#: model:mail.template,body_html:oao_dental_clinic_management.email_template_appointment_details
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"box-sizing:border-box;margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                          Dear <t t-out=\"object.patient_id.name\"></t> <t t-out=\"object.patient_id.surname\"></t>,\n"
+"                    </p>\n"
+"                    <p style=\"box-sizing:border-box;margin: 10px 0; padding: 0px; font-size: 13px;\">\n"
+"                        We would like to confirm your dental appointment details:\n"
+"                    </p>\n"
+"                    <p style=\"margin:0px 0 12px 0;box-sizing:border-box;\">\n"
+"                        Appointment Date : <t t-out=\"object.start\"></t> <br>\n"
+"                        Dentist : <t t-out=\"object.dentist_id.name\"></t> <t t-out=\"object.dentist_id.surname\"></t> <br>\n"
+"                        Urgency Level : <t t-out=\"object.urgency_level\"></t>\n"
+"                    </p>\n"
+"                     <p style=\"margin:10px 0 12px 0;box-sizing:border-box;margin-top: 10px; font-size: 13px;\">\n"
+"                        Please make sure to arrive 10 minutes prior to your appointment. If you need to reschedule, kindly contact us as soon as possible.\n"
+"                    </p>\n"
+"                    <p style=\"margin:0px 0 12px 0;box-sizing:border-box;font-size: 13px;\">\n"
+"                        Best regards,<br>\n"
+"                        Your Dental Clinic Team\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"box-sizing:border-box;margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                          Sayın <t t-out=\"object.patient_id.name\"></t> <t t-out=\"object.patient_id.surname\"></t>,\n"
+"                    </p>\n"
+"                    <p style=\"box-sizing:border-box;margin: 10px 0; padding: 0px; font-size: 13px;\">\n"
+"                        Diş randevunuzun detaylarını onaylamak istiyoruz:\n"
+"                    </p>\n"
+"                    <p style=\"margin:0px 0 12px 0;box-sizing:border-box;\">\n"
+"                        Randevu Tarihi : <t t-out=\"object.start\"></t> <br>\n"
+"                        Diş Hekimi : <t t-out=\"object.dentist_id.name\"></t> <t t-out=\"object.dentist_id.surname\"></t> <br>\n"
+"                        Aciliyet Seviyesi : <t t-out=\"object.urgency_level\"></t>\n"
+"                    </p>\n"
+"                     <p style=\"margin:10px 0 12px 0;box-sizing:border-box;margin-top: 10px; font-size: 13px;\">\n"
+"                        Lütfen randevunuza 10 dakika erken gelmeyi unutmayın. Yeniden planlama gerekiyorsa, lütfen mümkün olan en kısa sürede bizimle iletişime geçin.\n"
+"                    </p>\n"
+"                    <p style=\"margin:0px 0 12px 0;box-sizing:border-box;font-size: 13px;\">\n"
+"                        Saygılarımızla,<br>\n"
+"                        Diş Kliniği Ekibiniz\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+
+#. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_appointment_template
 msgid "<option value=\"\">-- Select Dentist --</option>"
 msgstr "Doktor Seçiniz"
@@ -42,7 +89,7 @@ msgstr "Arşivlendi"
 #, python-format
 msgid ""
 "A patient with the same name, surname and date of birth already exists."
-msgstr "Aynı isimde, soyisimde ve doğum tarihinde bir hasta bulunmaktadır."
+msgstr "Aynı isim, soyisim ve doğum tarihinde bir hasta zaten bulunuyor."
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields.selection,name:oao_dental_clinic_management.selection__patient_patient__blood_type__ab_positive
@@ -69,7 +116,7 @@ msgstr "Çalışan Hakkında"
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__message_needaction
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Aksiyon Gerekli"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__active
@@ -89,21 +136,21 @@ msgstr "Aktivite"
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__activity_exception_decoration
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Aktivite İstisna Dekorasyonu"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__activity_state
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__activity_state
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Aktivite Durumu"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__activity_type_icon
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__activity_type_icon
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Aktivite Türü Simgesi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__age
@@ -157,6 +204,11 @@ msgid "Appointment Status"
 msgstr "Randevu Durumu"
 
 #. module: oao_dental_clinic_management
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__name
+msgid "Appointment Subject"
+msgstr "Randevu Konusu"
+
+#. module: oao_dental_clinic_management
 #: model:ir.actions.act_window,name:oao_dental_clinic_management.action_patient_appointment_calendar
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_form
 msgid "Appointments"
@@ -190,6 +242,31 @@ msgid "Blood Types"
 msgstr "Kan Grupları"
 
 #. module: oao_dental_clinic_management
+#: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_appointment_form
+msgid "Cancel Appointment"
+msgstr "Randevu İptal"
+
+#. module: oao_dental_clinic_management
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__address
+msgid "Center Address"
+msgstr "Klinik Adresi"
+
+#. module: oao_dental_clinic_management
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__administrator_id
+msgid "Center Administrator"
+msgstr "Klinik Yöneticisi"
+
+#. module: oao_dental_clinic_management
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__code
+msgid "Center Code"
+msgstr "Klinik Kodu"
+
+#. module: oao_dental_clinic_management
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__name
+msgid "Center Name"
+msgstr "Klinik Adı"
+
+#. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__city
 msgid "City"
 msgstr "Şehir"
@@ -198,6 +275,19 @@ msgstr "Şehir"
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_appointment_calendar
 msgid "Clinic Appointment"
 msgstr "Klinik Randevusu"
+
+#. module: oao_dental_clinic_management
+#: model:ir.model,name:oao_dental_clinic_management.model_clinic_center
+#: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_clinic_center_form
+msgid "Clinic Center"
+msgstr "Klinik Merkezi"
+
+#. module: oao_dental_clinic_management
+#: model:ir.actions.act_window,name:oao_dental_clinic_management.action_clinic_center
+#: model:ir.ui.menu,name:oao_dental_clinic_management.menu_clinic_center
+#: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_clinic_center_tree
+msgid "Clinic Centers"
+msgstr "Klinik Merkezleri"
 
 #. module: oao_dental_clinic_management
 #: model:ir.ui.menu,name:oao_dental_clinic_management.menu_configuration_submenu
@@ -222,6 +312,7 @@ msgstr "Yeni hasta kaydet"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__create_uid
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__create_uid
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__create_uid
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_employee_type__create_uid
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__create_uid
@@ -231,12 +322,13 @@ msgstr "Tarafından oluştruldu"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__create_date
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__create_date
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__create_date
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_employee_type__create_date
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__create_date
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Oluşturuldu"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__date_of_birth
@@ -255,6 +347,18 @@ msgid "Demir"
 msgstr ""
 
 #. module: oao_dental_clinic_management
+#: model:mail.template,name:oao_dental_clinic_management.email_template_appointment_details
+msgid "Dental : Appointment"
+msgstr "Diş Kliniği : Randevu"
+
+#. module: oao_dental_clinic_management
+#: model:mail.template,description:oao_dental_clinic_management.email_template_appointment_details
+msgid "Dental Appointment Details"
+msgstr "Diş Randevusu Detayları"
+
+#. module: oao_dental_clinic_management
+#: model:ir.module.category,name:oao_dental_clinic_management.dental_clinic_security_category
+#: model:ir.module.category,name:oao_dental_clinic_management.dental_clinic_sub_security_category
 #: model:ir.ui.menu,name:oao_dental_clinic_management.menu_custom_data_root
 msgid "Dental Clinic"
 msgstr "Diş Kliniği"
@@ -264,6 +368,11 @@ msgstr "Diş Kliniği"
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__dentist_id
 msgid "Dentist"
 msgstr "Doktor"
+
+#. module: oao_dental_clinic_management
+#: model:res.groups,name:oao_dental_clinic_management.group_dental_clinic_dentists
+msgid "Dentists"
+msgstr "Doktorlar"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__note
@@ -278,6 +387,7 @@ msgstr "Hastalıklar"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__display_name
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__display_name
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__display_name
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_employee_type__display_name
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__display_name
@@ -298,17 +408,36 @@ msgstr "Süre"
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_appointment_template
 msgid "E-posta"
-msgstr "E-posta"
+msgstr ""
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__email
 msgid "Email"
-msgstr "Email"
+msgstr "E-posta"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__email
 msgid "Email Address"
-msgstr "Email"
+msgstr "E-posta"
+
+#. module: oao_dental_clinic_management
+#: model:ir.model.fields.selection,name:oao_dental_clinic_management.selection__patient_appointment__appointment_status__sent_email
+msgid "Email Sent"
+msgstr "E-posta Gönderildi"
+
+#. module: oao_dental_clinic_management
+#. odoo-python
+#: code:addons/oao_dental_clinic_management/models/patient_appointment.py:0
+#, python-format
+msgid "Email sending failed!"
+msgstr "E-posta Gönderilemedi"
+
+#. module: oao_dental_clinic_management
+#. odoo-python
+#: code:addons/oao_dental_clinic_management/models/patient_appointment.py:0
+#, python-format
+msgid "Email template not found!"
+msgstr "E-posta şablonu bulunamadı"
 
 #. module: oao_dental_clinic_management
 #: model:ir.actions.act_window,name:oao_dental_clinic_management.action_employee
@@ -348,6 +477,7 @@ msgstr "Çalışan Tipleri"
 
 #. module: oao_dental_clinic_management
 #: model:ir.ui.menu,name:oao_dental_clinic_management.menu_employee
+#: model:res.groups,name:oao_dental_clinic_management.group_dental_clinic_employee
 msgid "Employees"
 msgstr "Çalışanlar"
 
@@ -389,7 +519,7 @@ msgstr "Cinsiyet"
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__has_message
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Ana Mesaj"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields.selection,name:oao_dental_clinic_management.selection__patient_appointment__urgency_level__high
@@ -403,12 +533,13 @@ msgstr "Ev Adresi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__id
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__id
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__id
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_employee_type__id
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__id
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__activity_exception_icon
@@ -462,7 +593,7 @@ msgstr "Geçersiz Doğum Tarihi"
 msgid ""
 "Invalid phone number. Please enter a 10-digit phone number without spaces or"
 " special characters for the primary phone."
-msgstr "Geçersiz telefon numarası. Lütfen boşluk veya özel karakter olmadan 10 haneli bir telefon numarası girin (Birincil telefon için)."
+msgstr "Geçersiz telefon numarası girildi. Lütfen boşluk ve özel karakter kullanmadan 10 haneli telefon numarası giriniz."
 
 #. module: oao_dental_clinic_management
 #. odoo-python
@@ -471,7 +602,7 @@ msgstr "Geçersiz telefon numarası. Lütfen boşluk veya özel karakter olmadan
 msgid ""
 "Invalid phone number. Please enter a 10-digit phone number without spaces or"
 " special characters for the secondary phone."
-msgstr "Geçersiz telefon numarası. Lütfen boşluk veya özel karakter olmadan 10 haneli bir telefon numarası girin (ikincil telefon için)."
+msgstr "Geçersiz telefon numarası girildi. Lütfen boşluk ve özel karakter kullanmadan 10 haneli telefon numarası giriniz."
 
 #. module: oao_dental_clinic_management
 #. odoo-python
@@ -480,7 +611,7 @@ msgstr "Geçersiz telefon numarası. Lütfen boşluk veya özel karakter olmadan
 msgid ""
 "Invalid phone number. Please enter a 10-digit phone number without spaces or"
 " special characters."
-msgstr "Geçersiz telefon numarası. Lütfen boşluk veya özel karakter olmadan 10 haneli bir telefon numarası girin."
+msgstr "eçersiz telefon numarası girildi. Lütfen boşluk ve özel karakter kullanmadan 10 haneli telefon numarası giriniz."
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__is_contacted
@@ -496,6 +627,7 @@ msgstr "Takipçi mi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests____last_update
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center____last_update
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee____last_update
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_employee_type____last_update
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment____last_update
@@ -505,6 +637,7 @@ msgstr "Son Düzenlenme Tarihi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__write_uid
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__write_uid
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__write_uid
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_employee_type__write_uid
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__write_uid
@@ -514,6 +647,7 @@ msgstr "Son Güncelleyen"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__write_date
+#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_center__write_date
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__write_date
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_employee_type__write_date
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__write_date
@@ -540,13 +674,23 @@ msgid "Male"
 msgstr "Erkek"
 
 #. module: oao_dental_clinic_management
+#: model:ir.module.category,description:oao_dental_clinic_management.dental_clinic_security_category
+#: model:ir.module.category,description:oao_dental_clinic_management.dental_clinic_sub_security_category
+msgid "Manage Access to Dental Clinic"
+msgstr "Diş Kliniği Erişimleri Yönetme"
+
+#. module: oao_dental_clinic_management
+#: model:res.groups,name:oao_dental_clinic_management.group_dental_clinic_manager
+msgid "Manager"
+msgstr "Yönetici"
+
+#. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_form
 msgid "Medicines"
 msgstr "İlaçlar"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__name
-#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__name
 msgid "Meeting Subject"
 msgstr "Randevu Konusu"
 
@@ -597,13 +741,6 @@ msgid "New Patient"
 msgstr "Yeni Hasta"
 
 #. module: oao_dental_clinic_management
-#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__activity_calendar_event_id
-#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__activity_calendar_event_id
-#: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
-msgstr "Sonraki Aktivite Takvim Etkinliği"
-
-#. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__activity_date_deadline
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__activity_date_deadline
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__activity_date_deadline
@@ -627,7 +764,7 @@ msgstr "Sonraki Aktivite Tipi"
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields.selection,name:oao_dental_clinic_management.selection__patient_appointment__urgency_level__normal
 msgid "Normal"
-msgstr "Normal"
+msgstr ""
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__message_needaction_counter
@@ -641,32 +778,32 @@ msgstr "Aksiyon Sayısı"
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__message_has_error_counter
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Hata Sayısı"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_clinic_employee__message_needaction_counter
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_appointment__message_needaction_counter
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_patient__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Eylem gerektiren mesajların sayısı"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_clinic_employee__message_has_error_counter
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_appointment__message_has_error_counter
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_patient__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Teslimat hatası olan mesajların sayısı"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_form
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_tree
 msgid "Patient"
-msgstr ""
+msgstr "Hasta"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model,name:oao_dental_clinic_management.model_patient_appointment
 msgid "Patient Clinic Appointment"
-msgstr ""
+msgstr "Hasta Klinik Randevusu"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_form
@@ -676,7 +813,7 @@ msgstr "Hasta Kritik Bilgileri"
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_search
 msgid "Patient Email"
-msgstr ""
+msgstr "Hasta Email"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__patient_id
@@ -684,113 +821,119 @@ msgstr ""
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__name
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_search
 msgid "Patient Name"
-msgstr ""
+msgstr "Hasta İsim"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_search
 msgid "Patient Phone Number"
-msgstr ""
+msgstr "Hasta Telefon Numarası"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__patient_serial
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_search
 msgid "Patient Serial"
-msgstr ""
+msgstr "Hasta Seri Numarası"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__surname
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_search
 msgid "Patient Surname"
-msgstr ""
+msgstr "Hasta Soyisim"
 
 #. module: oao_dental_clinic_management
 #: model:ir.actions.act_window,name:oao_dental_clinic_management.action_patient
 #: model:ir.model,name:oao_dental_clinic_management.model_patient_patient
 #: model:ir.ui.menu,name:oao_dental_clinic_management.menu_patient_submenu
 msgid "Patients"
-msgstr ""
+msgstr "Hastalar"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_form
 msgid "Payments"
-msgstr ""
+msgstr "Ödemeler"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__phone
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_appointment_template
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__phone
 msgid "Phone Number"
-msgstr ""
+msgstr "Telefon Numarası"
 
 #. module: oao_dental_clinic_management
 #. odoo-python
 #: code:addons/oao_dental_clinic_management/models/clinic_employee.py:0
 #, python-format
 msgid "Phone and Second Phone can not be same."
-msgstr ""
+msgstr "Birincil ve ikincil telefon numaraları aynı olamaz."
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_form
 msgid "Prescriptions"
-msgstr ""
+msgstr "Reçeteler"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__pricelist_id
 msgid "Pricelist"
-msgstr ""
+msgstr "Fiyat Listesi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__product_id
 msgid "Product"
-msgstr ""
+msgstr "Ürün"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_appointment_requests__appointment_day
 msgid "Request Day"
-msgstr ""
+msgstr "İstenilen Gün"
 
 #. module: oao_dental_clinic_management
 #: model:ir.actions.act_window,name:oao_dental_clinic_management.action_appointment_requests
 msgid "Requests"
-msgstr ""
+msgstr "İstekler"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__activity_user_id
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__activity_user_id
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Sorumlu Kişi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__message_has_sms_error
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__message_has_sms_error
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "SMS Ulaşma Hatası"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__second_phone
 msgid "Second Phone"
-msgstr ""
+msgstr "İkinci Telefon"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_appointment_template
 msgid "Select Dentist"
-msgstr ""
+msgstr "Doktor Seçiniz"
+
+#. module: oao_dental_clinic_management
+#: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_appointment_form
+msgid "Send Email"
+msgstr "E-posta gönderildi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__start
 msgid "Start"
-msgstr ""
+msgstr "Başlangıç"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_appointment__start
 msgid "Start date of an event, without time for full days events"
 msgstr ""
+"Tam gün etkinlikler için saat belirtilmeden etkinliğin başlangıç tarihi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_clinic_employee__activity_state
@@ -801,37 +944,37 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
-msgstr ""
+msgstr "Gelecek Aktiviteleri"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__stop
 msgid "Stop"
-msgstr ""
+msgstr "Bitiş"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_appointment__stop
 msgid "Stop date of an event, without time for full days events"
-msgstr ""
+msgstr "Tam gün etkinlikler için saat belirtilmeden etkinliğin bitiş tarihi"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_appointment_template
 msgid "Surname"
-msgstr ""
+msgstr "Soyisim"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__tc_number
 msgid "TC No"
-msgstr ""
+msgstr "Tc Kimlik No:"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_thanks_ir_ui_view
 msgid "Thanks!"
-msgstr ""
+msgstr "Teşekkürler!"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_thanks_ir_ui_view
 msgid "The Appointment has been Created successfully."
-msgstr ""
+msgstr "Randevu başarıyla oluşturuldu."
 
 #. module: oao_dental_clinic_management
 #. odoo-python
@@ -839,7 +982,7 @@ msgstr ""
 #: code:addons/oao_dental_clinic_management/models/patient_appointment.py:0
 #, python-format
 msgid "The dentist already has an appointment scheduled during this time."
-msgstr ""
+msgstr "Bu tarih ve saatte Doktor'un başka bir randevusu bulunmaktadır."
 
 #. module: oao_dental_clinic_management
 #. odoo-python
@@ -847,61 +990,66 @@ msgstr ""
 #: code:addons/oao_dental_clinic_management/models/patient_appointment.py:0
 #, python-format
 msgid "The patient already has an appointment scheduled during this time."
-msgstr ""
+msgstr "Bu tarih ve saatte hastanın başka bir randevusu bulunmaktadır."
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_form
 msgid "Treatment Details"
-msgstr ""
+msgstr "Tedavi Detayları"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_clinic_employee__activity_exception_decoration
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_appointment__activity_exception_decoration
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_patient__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Kayıttaki istisna etkinliğinin türü."
 
 #. module: oao_dental_clinic_management
 #: model:ir.actions.server,name:oao_dental_clinic_management.ir_cron_update_ages_ir_actions_server
 #: model:ir.cron,cron_name:oao_dental_clinic_management.ir_cron_update_ages
 msgid "Update Ages"
-msgstr ""
+msgstr "Yaşı Güncelle"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__urgency_level
 msgid "Urgency Level"
-msgstr ""
+msgstr "Acil Durum Seviyesi"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_thanks_ir_ui_view
 msgid "We will call you soon."
-msgstr ""
+msgstr "En kısa sürede tarih ve saat detayları için iletişime geçeceğiz."
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_clinic_employee__website_message_ids
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_appointment__website_message_ids
 #: model:ir.model.fields,field_description:oao_dental_clinic_management.field_patient_patient__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Website Mesajları"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_clinic_employee__website_message_ids
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_appointment__website_message_ids
 #: model:ir.model.fields,help:oao_dental_clinic_management.field_patient_patient__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Website Sohbet Geçmişi"
 
 #. module: oao_dental_clinic_management
 #: model:ir.model,name:oao_dental_clinic_management.model_employee_type
 msgid "employee.type"
-msgstr ""
+msgstr "çalışan.tipi"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.patient_appointment_template
 msgid "example123@example.com"
-msgstr ""
+msgstr "ornegin@ornegin.com"
 
 #. module: oao_dental_clinic_management
 #: model_terms:ir.ui.view,arch_db:oao_dental_clinic_management.view_patient_form
 msgid "example@example.com"
+msgstr "ornegin@ornegin.com"
+
+#. module: oao_dental_clinic_management
+#: model:mail.template,subject:oao_dental_clinic_management.email_template_appointment_details
+msgid "{{ object.name}}"
 msgstr ""
