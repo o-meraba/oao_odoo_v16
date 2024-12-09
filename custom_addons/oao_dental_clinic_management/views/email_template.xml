@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <!-- Mail template are declared in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="1">
+        <!--Email template -->
+        <record id="email_template_appointment_details" model="mail.template">
+            <field name="name">Dental : Appointment</field>
+            <field name="model_id" ref="model_patient_appointment"/>
+            <field name="email_from">clinic@example.com</field>
+            <field name="email_to">{{ object.patient_id.email}}</field>
+            <field name="subject">{{ object.name}}</field>
+            <field name="description">Dental Appointment Details</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                          Dear <t t-out="object.patient_id.name"/> <t t-out="object.patient_id.surname"/>,
+                    </p>
+                    <p style="margin: 10px 0; padding: 0px; font-size: 13px;">
+                        We would like to confirm your dental appointment details:
+                    </p>
+                    <p>
+                        Appointment Date : <t t-out="object.start"/> <br/>
+                        Dentist : <t t-out="object.dentist_id.name"/> <t t-out="object.dentist_id.surname"/> <br/>
+                        Urgency Level : <t t-out="object.urgency_level"/>
+                    </p>
+                     <p style="margin-top: 10px; font-size: 13px;">
+                        Please make sure to arrive 10 minutes prior to your appointment. If you need to reschedule, kindly contact us as soon as possible.
+                    </p>
+                    <p style="font-size: 13px;">
+                        Best regards,<br />
+                        Your Dental Clinic Team
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

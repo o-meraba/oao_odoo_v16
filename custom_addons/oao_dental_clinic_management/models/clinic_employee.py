@@ -55,6 +55,11 @@ class Employee(models.Model):
             if rec.date_of_birth:
                 if rec.date_of_birth > today:
                     raise ValidationError(_("Invalid Date of Birth"))
+    @api.constrains('age')
+    def _check_age(self):
+        if self.date_of_birth:
+            if self.age<18:
+                raise ValidationError(_("Age can not be under 18."))
 
     @api.constrains('phone', 'second_phone')
     def _validation_phone(self):
@@ -67,7 +72,7 @@ class Employee(models.Model):
                 raise ValidationError(
                     _("Invalid phone number. Please enter a 10-digit phone number without spaces or special "
                       "characters for the secondary phone."))
-            if record.phone and record.second_phone and record.phone == record.second_phone:
+            if record.phone == record.second_phone:
                 raise ValidationError(_("Phone and Second Phone can not be same."))
     @api.constrains("email")
     def _check_email_constraints(self):

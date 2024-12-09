@@ -1,7 +1,11 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
+
+from dateutil.utils import today
 
 from odoo import fields, models, api, _
+from odoo.addons.test_convert.tests.test_env import record
 from odoo.exceptions import ValidationError
+from odoo.service.server import start
 
 
 class PatientAppointment(models.Model):
@@ -13,7 +17,7 @@ class PatientAppointment(models.Model):
     appointment_serial = fields.Char(string="Appointment Serial", required=True, duplicate=False, readonly=True,
                                      index=True, default=lambda self: _("New Appointment"))
     patient_id = fields.Many2one('patient.patient', string="Patient Name", tracking=True)
-    name = fields.Char('Meeting Subject', required=False)
+    name = fields.Char('Appointment Subject', required=False)
     dentist_id = fields.Many2one('clinic.employee', string="Dentist", domain=[('employee_type.name', '=', 'Dentist')])
     pricelist_id = fields.Many2one('product.pricelist', string="Pricelist")
     product_id = fields.Many2one('product.product', string="Product")
@@ -21,6 +25,7 @@ class PatientAppointment(models.Model):
     duration = fields.Float('Duration', compute='_compute_duration', store=True, readonly=False)
     appointment_status = fields.Selection([
         ('draft', 'Draft'),
+        ('sent_email', 'Email Sent'),
         ('confirm', 'Appointment Confirmed'),
         ('completed_appointment', 'Appointment Completed'),
         ('cancelled', 'Appointment Cancelled'),
@@ -58,6 +63,36 @@ class PatientAppointment(models.Model):
     def _compute_duration(self):
         for event in self.with_context(dont_notify=True):
             event.duration = self._get_duration(event.start, event.stop)
+
+    def action_send_email_appointment_details(self):
+        template_id = self.env.ref('oao_dental_clinic_management.email_template_appointment_details').id
+        template = self.env['mail.template'].browse(template_id)
+        if not template:
+            raise ValidationError(_("Email template not found!"))
+
+        result = template.send_mail(self.id, force_send=True)
+        mail = self.env['mail.mail'].search([('id', '=', result)], limit=1)
+        if mail and mail.state == 'exception':
+            raise ValidationError(_("Email sending failed!"))
+        else:
+            self.appointment_status = 'sent_email'
+
+
+    def status_cancelled_appointment(self):
+        self.appointment_status = 'cancelled'
+
+    @api.constrains('start')
+    def _check_start_time(self):
+        if self.start:
+            now = datetime.now()
+            if self.start < now:
+                raise ValidationError(_("The start time cannot be in the past. "))
+
+    @api.constrains('stop')
+    def _check_stop_time(self):
+        if self.start and self.stop:
+            if self.stop < self.start:
+                raise ValidationError(_('The stop time cannot be earlier than start time '))
 
     @api.model
     def create(self, vals):  # save button in the form view

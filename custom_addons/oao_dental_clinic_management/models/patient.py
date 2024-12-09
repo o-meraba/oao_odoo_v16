@@ -90,13 +90,15 @@ class Patient(models.Model):
     @api.constrains('phone')
     def _validation_phone(self):
         for record in self:
-            if not re.match(r"^[1-9][0-9]{9}$", record.phone):
-                raise ValidationError(
-                    _("Invalid phone number. Please enter a 10-digit phone number without spaces or special characters."))
+            if record.phone:
+                if not re.match(r"^[1-9][0-9]{9}$", record.phone):
+                    raise ValidationError(
+                        _("Invalid phone number. Please enter a 10-digit phone number without spaces or special characters."))
 
     @api.constrains("email")
     def _check_email_constraints(self):
         email_pattern = r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"
         for record in self:
-            if not re.match(email_pattern, record.email):
-                raise ValidationError("Invalid email.")
+            if record.email:
+                if not re.match(email_pattern, record.email):
+                    raise ValidationError("Invalid email.")
