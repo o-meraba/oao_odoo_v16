@@ -54,6 +54,11 @@ class Employee(models.Model):
             if rec.date_of_birth:
                 if rec.date_of_birth > today:
                     raise ValidationError(_("Invalid Date of Birth"))
+    @api.constrains('age')
+    def _check_age(self):
+        if self.date_of_birth:
+            if self.age<18:
+                raise ValidationError(_("Age can not be under 18."))
 
     @api.constrains('phone', 'second_phone')
     def _validation_phone(self):
@@ -79,20 +84,17 @@ class Employee(models.Model):
     @api.constrains('tc_number')
     def _check_tc_number(self):
         for record in self:
-            tc_no = record.tc_number
+            if record.tc_number:
+                tc_number = record.tc_number
+                if not tc_number.isdigit() or len(tc_number) != 11:
+                    raise ValidationError("The ID number cannot include any string or special characters and should be 11 numbers.")
 
-            # TC numarası 11 haneli olmalı ve rakamlardan oluşmalı
-            if not tc_no.isdigit() or len(tc_no) != 11:
-                raise ValidationError("TC Kimlik Numarası 11 haneli bir sayı olmalıdır.")
+                if tc_number[0] == '0':
+                    raise ValidationError("The ID number cannot start with 0.")
 
-            # İlk hane 0 olmamalı
-            if tc_no[0] == '0':
-                raise ValidationError("TC Kimlik Numarası 0 ile başlayamaz.")
-
-            # Algoritmaya göre doğrulama
-            digits = list(map(int, tc_no))
-            if not (
-                    sum(digits[:10]) % 10 == digits[10] and
-                    (sum(digits[0:9:2]) * 7 - sum(digits[1:8:2])) % 10 == digits[9]
-            ):
-                raise ValidationError("Geçerli bir TC Kimlik Numarası giriniz.")
+                digits = list(map(int, tc_number))
+                if not (
+                        sum(digits[:10]) % 10 == digits[10] and
+                        (sum(digits[0:9:2]) * 7 - sum(digits[1:8:2])) % 10 == digits[9]
+                ):
+                    raise ValidationError("Please enter a valid ID number.")
