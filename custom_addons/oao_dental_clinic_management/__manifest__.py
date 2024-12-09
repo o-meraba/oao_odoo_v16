@@ -24,6 +24,7 @@
         'views/appointment_requests_views.xml',
         'views/clinic_center_views.xml',
         'views/menu_views.xml',
+        'views/email_template.xml',
     ],
     'sequence': '-1',
     'installable': True,

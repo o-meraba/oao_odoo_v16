@@ -62,6 +62,18 @@
         </field>
     </record>
 
+    <record id="view_employee_search" model="ir.ui.view">
+        <field name="name">clinic.employee.search</field>
+        <field name="model">clinic.employee</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="filter_dentists" string="Dentists" domain="[('employee_type.id', '=', 1)]"/>
+                <field name="name" string="Employee Name"/>
+                <field name="surname" string="Employee Surname"/>
+            </search>
+        </field>
+    </record>
+
     <record id="action_employee" model="ir.actions.act_window">
         <field name="name">Employee</field>
         <field name="res_model">clinic.employee</field>

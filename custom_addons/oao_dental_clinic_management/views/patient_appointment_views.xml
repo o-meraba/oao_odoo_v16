@@ -11,7 +11,7 @@
         <field name="name">patient.appointment.tree</field>
         <field name="model">patient.appointment</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree delete="false">
                 <field name="appointment_serial" readonly="1"/>
                 <field name="start"/>
                 <field name="patient_id"/>
@@ -23,9 +23,11 @@
         <field name="name">patient.appointment.form</field>
         <field name="model">patient.appointment</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Appointment" delete="false" duplicate="false">
                 <header>
-                    <field name="appointment_status" widget="statusbar" statusbar_visible="draft,confirm,in_exam,completed_exam,completed_appointment,cancelled" options="{'clickable': '1'}"/>
+                    <field name="appointment_status" widget="statusbar" statusbar_visible="draft,sent_email,confirm,completed_appointment,cancelled"/>
+                    <button name="action_send_email_appointment_details" type="object" string="Send Email" class="oe_highlight"/>
+                    <button name="status_cancelled_appointment" type="object" string="Cancel Appointment" class="oe_highlight"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -35,16 +37,16 @@
                     </div>
                     <group>
                         <group>
-                            <field name="appointment_serial" readonly="1"/>
+                            <field name="name"/>
                             <field name="patient_id"/>
                             <field name="start"/>
-                            <field name="dentist_id"/>
-                            <field name="pricelist_id"/>
+                            <field name="dentist_id" widget="selection"/>
+                            <field name="pricelist_id" widget="selection"/>
                         </group>
                         <group>
                             <field name="urgency_level"/>
                             <field name="stop"/>
-                            <field name="product_id"/>
+                            <field name="product_id" widget="selection"/>
                         </group>
                     </group>
                 </sheet>
