@@ -1,0 +1,25 @@
+<odoo>
+    <data noupdate="1">
+        <record id="dental_clinic_security_category" model="ir.module.category">
+            <field name="name">Dental Clinic</field>
+            <field name="description">Manage Access to Dental Clinic</field>
+            <field name="sequence">45</field>
+        </record>
+
+        <record id="group_dental_clinic_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="oao_dental_clinic_management.dental_clinic_security_category"/>
+        </record>
+
+        <record id="group_dental_clinic_employee" model="res.groups">
+            <field name="name">Employees</field>
+            <field name="category_id" ref="oao_dental_clinic_management.dental_clinic_security_category"/>
+        </record>
+
+         <record id="group_dental_clinic_dentists" model="res.groups">
+            <field name="name">Dentists</field>
+            <field name="category_id" ref="oao_dental_clinic_management.dental_clinic_security_category"/>
+             <field name="implied_ids" eval="[(6, 0, [ref('oao_dental_clinic_management.group_dental_clinic_employee')])]"/>
+        </record>
+    </data>
+</odoo>

@@ -121,6 +121,10 @@ class PatientAppointment(models.Model):
         if vals.get('appointment_serial', _('New Appointment')) == _('New Appointment'):
             vals['appointment_serial'] = self.env['ir.sequence'].next_by_code('patient.appointment.sequence') or _(
                 'New Appointment')
+        if vals.get('patient_id') and vals.get('dentist_id'):
+            patient = self.env['patient.patient'].browse(vals['patient_id'])
+            patient.write({'dentist_id': vals['dentist_id']})
+
         return super(PatientAppointment, self).create(vals)
 
     def write(self, vals):
@@ -147,6 +151,13 @@ class PatientAppointment(models.Model):
                     ('stop', '>', start_time),
                     ('id', '!=', record.id)
                 ])
+
                 if existing_appointments_patient:
                     raise ValidationError(_("The patient already has an appointment scheduled during this time."))
+
+            if 'dentist_id' in vals:
+                patient = record.patient_id
+                patient.write({'dentist_id': vals['dentist_id']})
+
+
         return super(PatientAppointment, self).write(vals)

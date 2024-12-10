@@ -14,6 +14,7 @@ class Patient(models.Model):
                                  default=lambda self: _("New Patient"))
     name = fields.Char(string="Patient Name", required=True)
     surname = fields.Char(string="Patient Surname", required=True)
+    dentist_id = fields.Many2one('clinic.employee', string="Dentist", domain=[('employee_type.name', '=', 'Dentist')])
     date_of_birth = fields.Date(string='Date Of Birth', default=date.today(), required=True)
     age = fields.Integer(string='Age In Years', compute="_compute_age", store=True)
     image = fields.Image(string="Image")
