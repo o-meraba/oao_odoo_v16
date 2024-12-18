@@ -25,9 +25,11 @@
         <field name="arch" type="xml">
             <form string="Appointment" delete="false" duplicate="false">
                 <header>
-                    <field name="appointment_status" widget="statusbar" statusbar_visible="draft,sent_email,confirm,completed_appointment,cancelled"/>
+                    <field name="appointment_status" widget="statusbar" statusbar_visible="draft,sent_email,confirm,completed,cancelled"/>
+                    <button name="action_confirmed_appointment" type="object" string="Confirm" class="oe_highlight"/>
                     <button name="action_send_email_appointment_details" type="object" string="Send Email" class="oe_highlight"/>
-                    <button name="status_cancelled_appointment" type="object" string="Cancel Appointment" class="oe_highlight"/>
+                    <button name="status_completed_appointment" type="object" string="Completed" class="oe_highlight"/>
+                    <button name="status_cancelled_appointment" type="object" string="Cancel" class="oe_highlight"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -59,10 +61,30 @@
         </field>
     </record>
 
-     <record id="action_patient_appointment_calendar" model="ir.actions.act_window">
+    <record id="view_patient_appointment_search" model="ir.ui.view">
+        <field name="name">patient.appointment.search</field>
+        <field name="model">patient.appointment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="appointment_serial"/>
+                <field name="patient_id"/>
+                <field name="dentist_id"/>
+                <filter string="Draft" name="appointment_status" domain="[('appointment_status', '=', 'draft' )]"/>
+                <filter string="Email Sent" name="sent_email" domain="[('appointment_status', '=', 'sent_email' )]"/>
+                <filter string="Confirmed" name="appointment_status" domain="[('appointment_status', '=', 'confirm' )]"/>
+                <filter string="Completed" name="appointment_status" domain="[('appointment_status', '=', 'completed_appointment' )]"/>
+                <filter string="Cancelled" name="appointment_status" domain="[('appointment_status', '=', 'cancelled' )]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Appointment Status" name="appointment_status" context="{'group_by': 'appointment_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+     <record id="action_patient_appointment" model="ir.actions.act_window">
         <field name="name">Appointments</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">patient.appointment</field>
-        <field name="view_mode">calendar,tree,form</field>
+        <field name="view_mode">calendar,tree,form,kanban</field>
     </record>
 </odoo>

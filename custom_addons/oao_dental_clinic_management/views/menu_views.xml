@@ -7,7 +7,7 @@
         <menuitem id="menu_appointments_submenu"
                   name="Appointments Table"
                   parent="menu_custom_data_root"
-                  action="action_patient_appointment_calendar"
+                  action="action_patient_appointment"
                   sequence="10"/>
 
         <menuitem id="menu_patient_submenu"

@@ -1,11 +1,7 @@
 from datetime import timedelta, datetime
-
-from dateutil.utils import today
-
 from odoo import fields, models, api, _
-from odoo.addons.test_convert.tests.test_env import record
 from odoo.exceptions import ValidationError
-from odoo.service.server import start
+import pytz
 
 
 class PatientAppointment(models.Model):
@@ -25,10 +21,10 @@ class PatientAppointment(models.Model):
     duration = fields.Float('Duration', compute='_compute_duration', store=True, readonly=False)
     appointment_status = fields.Selection([
         ('draft', 'Draft'),
+        ('confirm', 'Confirmed'),
         ('sent_email', 'Email Sent'),
-        ('confirm', 'Appointment Confirmed'),
-        ('completed_appointment', 'Appointment Completed'),
-        ('cancelled', 'Appointment Cancelled'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
     ], required=False, string="Appointment Status", tracking=True, default='draft')
     urgency_level = fields.Selection([
         ('low', 'Low'),
@@ -64,6 +60,12 @@ class PatientAppointment(models.Model):
         for event in self.with_context(dont_notify=True):
             event.duration = self._get_duration(event.start, event.stop)
 
+    def action_confirmed_appointment(self):
+        self.appointment_status = 'confirm'
+
+    def status_completed_appointment(self):
+        self.appointment_status = 'completed'
+
     def action_send_email_appointment_details(self):
         template_id = self.env.ref('oao_dental_clinic_management.email_template_appointment_details').id
         template = self.env['mail.template'].browse(template_id)
@@ -76,6 +78,30 @@ class PatientAppointment(models.Model):
             raise ValidationError(_("Email sending failed!"))
         else:
             self.appointment_status = 'sent_email'
+
+    def _cron_remind_appointment(self):
+        turkey_tz = pytz.timezone('Europe/Istanbul')
+        utc_now = datetime.now(pytz.utc)
+        current_time = utc_now.astimezone(turkey_tz)
+        records = self.env['patient.appointment'].search([('appointment_status', '=', 'sent_email')])
+        for rec in records:
+            appointment_time = rec.start.astimezone(turkey_tz)
+            time_difference = appointment_time - current_time
+            if timedelta(hours=0) <= time_difference <= timedelta(hours=1):
+                template_id = self.env.ref('oao_dental_clinic_management.email_template_remind_appointment_details').id
+                template = self.env['mail.template'].browse(template_id)
+                if not template:
+                    raise ValidationError(_("Email template not found!"))
+
+                result = template.send_mail(rec.id, force_send=True)
+                mail = self.env['mail.mail'].search([('id', '=', result)], limit=1)
+                if mail and mail.state == 'exception':
+                    body = _("Failed sending remind mail for %s.") % rec.patient_id.name
+                    rec.message_post(body=body)
+                else:
+                    body = _("Reminder email sent successfully for %s.") % rec.patient_id.name
+                    rec.message_post(body=body)
+
 
 
     def status_cancelled_appointment(self):
@@ -102,7 +128,8 @@ class PatientAppointment(models.Model):
             existing_appointments = self.env['patient.appointment'].search([
                 ('dentist_id', '=', vals['dentist_id']),
                 ('start', '<', stop_time),
-                ('stop', '>', start_time)
+                ('stop', '>', start_time),
+                ('appointment_status', 'not in', ['completed', 'cancelled'])
             ])
             if existing_appointments:
                 raise ValidationError(_("The dentist already has an appointment scheduled during this time."))
@@ -130,34 +157,35 @@ class PatientAppointment(models.Model):
     def write(self, vals):
         # Check for overlapping appointments with the same dentist on update
         for record in self:
-            start_time = fields.Datetime.from_string(vals.get('start', record.start))
-            duration = vals.get('duration', record.duration)
-            stop_time = start_time + timedelta(hours=duration)
+            if record.dentist_id:
+                start_time = fields.Datetime.from_string(vals.get('start', record.start))
+                duration = vals.get('duration', record.duration)
+                stop_time = start_time + timedelta(hours=duration)
+                if 'dentist_id' in vals or 'start' in vals or 'duration' in vals:
+                    existing_appointments_dentist = self.env['patient.appointment'].search([
+                        ('dentist_id', '=', vals.get('dentist_id', record.dentist_id.id)),
+                        ('start', '<', stop_time),
+                        ('stop', '>', start_time),
+                        ('id', '!=', record.id),
+                        ('appointment_status', 'not in', ['completed', 'cancelled'])
+                    ])
+                    if existing_appointments_dentist:
+                        raise ValidationError(_("The dentist already has an appointment scheduled during this time."))
 
-            if 'dentist_id' in vals or 'start' in vals or 'duration' in vals:
-                existing_appointments_dentist = self.env['patient.appointment'].search([
-                    ('dentist_id', '=', vals.get('dentist_id', record.dentist_id.id)),
-                    ('start', '<', stop_time),
-                    ('stop', '>', start_time),
-                    ('id', '!=', record.id)
-                ])
-                if existing_appointments_dentist:
-                    raise ValidationError(_("The dentist already has an appointment scheduled during this time."))
+                if 'patient_id' in vals or 'start' in vals or 'duration' in vals:
+                    existing_appointments_patient = self.env['patient.appointment'].search([
+                        ('patient_id', '=', vals.get('patient_id', record.patient_id.id)),
+                        ('start', '<', stop_time),
+                        ('stop', '>', start_time),
+                        ('id', '!=', record.id)
+                    ])
 
-            if 'patient_id' in vals or 'start' in vals or 'duration' in vals:
-                existing_appointments_patient = self.env['patient.appointment'].search([
-                    ('patient_id', '=', vals.get('patient_id', record.patient_id.id)),
-                    ('start', '<', stop_time),
-                    ('stop', '>', start_time),
-                    ('id', '!=', record.id)
-                ])
+                    if existing_appointments_patient:
+                        raise ValidationError(_("The patient already has an appointment scheduled during this time."))
 
-                if existing_appointments_patient:
-                    raise ValidationError(_("The patient already has an appointment scheduled during this time."))
-
-            if 'dentist_id' in vals:
-                patient = record.patient_id
-                patient.write({'dentist_id': vals['dentist_id']})
+                if 'dentist_id' in vals:
+                    patient = record.patient_id
+                    patient.write({'dentist_id': vals['dentist_id']})
 
 
         return super(PatientAppointment, self).write(vals)
