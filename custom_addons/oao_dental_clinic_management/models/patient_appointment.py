@@ -20,7 +20,6 @@ class PatientAppointment(models.Model):
     name = fields.Char('Appointment Subject', required=False)
     dentist_id = fields.Many2one('clinic.employee', string="Dentist", domain=[('employee_type.name', '=', 'Dentist')])
     pricelist_id = fields.Many2one('product.pricelist', string="Pricelist")
-    product_id = fields.Many2one('product.product', string="Product")
     allday = fields.Boolean('All Day', default=False)
     duration = fields.Float('Duration', compute='_compute_duration', store=True, readonly=False)
     appointment_status = fields.Selection([
@@ -42,6 +41,7 @@ class PatientAppointment(models.Model):
         'Stop', required=True, tracking=True, default=lambda self: fields.Datetime.today() + timedelta(hours=0.5),
         compute='_compute_stop', readonly=False, store=True,
         help="Stop date of an event, without time for full days events")
+    procedure_line_id =fields.One2many('dental.procedure.line', 'appointment_id', string="Procedures")
 
     @api.depends('start', 'duration')
     def _compute_stop(self):

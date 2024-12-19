@@ -36,6 +36,7 @@ class Patient(models.Model):
         ('o_negative', 'O-'),
     ], string="Blood Types", required=False)
     active = fields.Boolean(string="Active", default=True)
+    procedure_line_id = fields.One2many('dental.procedure.line', 'patient_id', string="Procedures", readonly=True)
 
     def name_get(self):
         result = []
