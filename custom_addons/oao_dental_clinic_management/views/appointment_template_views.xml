@@ -40,7 +40,7 @@
                                 <select name="dentist_id" id="dentist" class="form-control" required="required">
                                     <option value="">-- Select Dentist --</option>
                                     <t t-foreach="dentists" t-as="dentist">
-                                        <option t-att-value="dentist.id" t-esc="dentist.name"/>
+                                        <option t-att-value="dentist.id" t-esc="dentist.name + ' ' + dentist.surname"/>
                                     </t>
                                 </select>
                             </div>
