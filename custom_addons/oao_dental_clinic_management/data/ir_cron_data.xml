@@ -11,5 +11,17 @@
             <field name="doall">False</field>
             <field name="active">True</field>
         </record>
+
+         <record id="ir_cron_remind_appointment" model="ir.cron">
+            <field name="name">Remind Appointment</field>
+            <field name="model_id" ref="model_patient_appointment"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_remind_appointment()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">False</field>
+            <field name="active">True</field>
+        </record>
     </data>
 </odoo>
