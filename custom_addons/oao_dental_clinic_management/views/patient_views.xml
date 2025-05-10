@@ -59,10 +59,19 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="Procedures">
+                            <field name="procedure_line_id">
+                                <tree>
+                                    <field name="appointment_id"/>
+                                    <field name="tooth_no"/>
+                                    <field name="cost"/>
+                                </tree>
+                            </field>
+                        </page>
                         <page string="Patient Critical Information">
                             <!-- Buraya hasta kritik bilgileri için alanlar eklenebilir -->
                         </page>
-                        <page string="Medicines">
+                         <page string="Medicines">
                             <!-- Buraya ilaç bilgileri için alanlar eklenebilir -->
                         </page>
                         <page string="Diseases">

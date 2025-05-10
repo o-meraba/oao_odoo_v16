@@ -46,8 +46,16 @@
                         <group>
                             <field name="urgency_level"/>
                             <field name="stop"/>
-                            <field name="product_id" widget="selection"/>
                         </group>
+                    </group>
+                    <group>
+                            <field name="procedure_line_id">
+                                <tree editable="bottom">
+                                    <field class="tooth_number_class" name="tooth_no"/>
+                                    <field name="service_item_id" readonly="0" />
+                                    <field name="cost" readonly="1" invisible="0"/>
+                            </tree>
+                        </field>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
